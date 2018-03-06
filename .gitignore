@@ -4,6 +4,10 @@
 target/*
 .settings/*
 
+.springBeans
+.project
+.classpath
+
 # Log file
 *.log
 
