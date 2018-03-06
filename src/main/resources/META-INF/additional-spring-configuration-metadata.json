@@ -1,0 +1,19 @@
+{
+	"properties": [
+		{
+			"name": "http-basic.user",
+			"type": "java.lang.String",
+			"description": "HTTP Basic Auth username"
+		},
+		{
+			"name": "http-basic.password",
+			"type": "java.lang.String",
+			"description": "HTTP Basic Auth password"
+		},
+		{
+			"name": "recordings.path",
+			"type": "java.lang.String",
+			"description": "Local path where to store the uploaded recordings"
+		}
+	]
+}
