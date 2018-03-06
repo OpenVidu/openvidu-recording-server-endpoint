@@ -1,0 +1,1 @@
+# openvidu-recording-server-endpoint
