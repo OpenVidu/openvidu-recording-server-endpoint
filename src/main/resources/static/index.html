@@ -1,0 +1,96 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>OpenVidu recording server endpoint</title>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="assets/bootstrap.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="openvidu-browser-1.8.0.min.js"></script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="navbar-collapse collapse show" id="navbarColor01" style="">
+            <ul class="navbar-nav mr-auto justify-content-center">
+                <li id="nav-upload" class="nav-item active">
+                    <a class="nav-link active" onclick="navigateTo('upload')">Upload</a>
+                </li>
+                <li id="nav-download" class="nav-item">
+                    <a class="nav-link" onclick="navigateTo('download')">Download</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="jumbotron vertical-center">
+
+        <div id="upload" class="container">
+            <button id="record-btn" onclick="recordVideo(getPublisherOptions('video'))" class="btn btn-lg btn-primary">Record video</button>
+            <div id="recording-div" style="display: none">
+                <div id="radio-buttons" class="form-group">
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" name="record-radio" type="radio" id="record-video" value="video" checked onclick="recordRadioChange(this)">
+                        <label class="custom-control-label" for="record-video">Video</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" name="record-radio" type="radio" id="record-audio" value="audio" onclick="recordRadioChange(this)">
+                        <label class="custom-control-label" for="record-audio">Audio</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input class="custom-control-input" name="record-radio" type="radio" id="record-screen" value="screen" onclick="recordRadioChange(this)">
+                        <label class="custom-control-label" for="record-screen">Screen</label>
+                    </div>
+                </div>
+                <div id="recording-video">
+                    <div id="post-video"></div>
+                    <div id="recording-controls">
+                        <button id="record-start-stop" title="Start/End recording" class="btn btn-success" onclick="startStopRecording()">Start</button>
+                        <button id="record-pause-resume" title="Pause/Resume recording" style="display: none" class="btn btn-info" onclick="pauseResumeRecording()">Pause</button>
+                        <button id="record-cancel" title="Cancel recording" onclick="cleanRecording(); reinit()" class="btn btn-warning">Cancel</button>
+                    </div>
+                    <div id="upload-controls" style="display: none">
+                        <a id="record-post-repeat" class="btn btn-warning" title="Repeat recording" onclick="cleanRecording(); recordVideo(getPublisherOptions(window['typeRecord']))">Repeat</a>
+                        <button id="record-post-send" class="btn btn-success" title="Send recording" onclick="upload(); cleanRecording(); reinit()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="download" class="container" style="display: none">
+            <div><video id="get-video" controls></video></div>
+            <br><hr><br>
+            <div id="single-video" class="form-group">
+                <input type="text" class="form-control mr-sm-2" id="videoId" placeholder="Identifier">
+                <button id="record-btn" class="btn btn-primary my-2 my-sm-0" onclick="getVideo()">Go</button>
+            </div>
+            <hr style="max-width: 500px">
+            <div id="list-video" class="form-group">
+                <button id="record-btn" class="btn btn-lg btn-primary" onclick="listAllVideos()">List all files with access granted</button>
+            </div>
+            <div id="list-files">
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

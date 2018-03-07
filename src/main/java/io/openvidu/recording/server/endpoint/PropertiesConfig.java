@@ -9,12 +9,6 @@ public class PropertiesConfig {
 	@Value("${server.port}")
 	private String serverPort;
 	
-	@Value("${http-basic.user}")
-	private String user;
-
-	@Value("${http-basic.password}")
-	private String password;
-	
 	@Value("${recordings.path}")
 	private String recordingsPath;
 
@@ -22,12 +16,20 @@ public class PropertiesConfig {
 		return serverPort;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUserLowPermissions() {
+		return "user";
 	}
 	
-	public String getPassword() {
-		return password;
+	public String getPasswordLowPermissions() {
+		return "pass";
+	}
+	
+	public String getUserHighPermissions() {
+		return "admin";
+	}
+	
+	public String getPasswordHighPermissions() {
+		return "admin";
 	}
 
 	public String getRecordingsPath() {

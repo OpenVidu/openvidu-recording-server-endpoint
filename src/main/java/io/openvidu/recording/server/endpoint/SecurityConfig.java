@@ -13,7 +13,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -27,6 +26,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	PropertiesConfig config;
 
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder authenticationMgr) throws Exception {
+		authenticationMgr.inMemoryAuthentication().withUser("user").password("pass").authorities("ROLE_USER").and()
+				.withUser("admin").password("admin").authorities("ROLE_ADMIN");
+	}
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/recording/**").allowedOrigins("*");
+			}
+		};
+	}
+ 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -39,34 +54,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			path = Files.createDirectories(path);
 			log.info("Created folder '{}'", path.toAbsolutePath().toString());
 		}
+		
+		Files.createDirectories(Paths.get(path + "/user"));
+		Files.createDirectories(Paths.get(path + "/admin"));
 
-		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry conf = http.csrf().disable()
-				.cors().and().authorizeRequests().antMatchers(HttpMethod.POST, "/recording").authenticated()
-				.antMatchers(HttpMethod.GET, "/recording").authenticated();
+		http.csrf().disable().cors().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and().httpBasic().and().authorizeRequests().antMatchers(HttpMethod.POST, "/recording").authenticated()
+				.antMatchers(HttpMethod.GET, "/recording/**").authenticated();
 
-		/*
-		 * if (config.getOpenViduRecordingFreeAccess()) { conf =
-		 * conf.antMatchers("/recordings/*").permitAll(); } else { conf =
-		 * conf.antMatchers("/recordings/*").authenticated(); }
-		 */
-
-		conf.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().httpBasic();
-	}
-
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("OPENVIDUAPP").password(config.getPassword()).roles("USER");
-		;
-	}
-
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/recording/**").allowedOrigins("*");
-			}
-		};
 	}
 
 }
