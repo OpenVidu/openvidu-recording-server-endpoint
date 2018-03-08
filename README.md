@@ -19,3 +19,10 @@ docker run -p 5443:5443 openvidu/openvidu-recording-server-endpoint
   - `POST /recording`: receives a recording as a MultiPart file and stores it locally.
   - `GET /recording/{recordingName}`: serves one recording with certain name.
   - `GET /recording/all`: returns an array with all the recording names for which the user has permissions.
+
+A simple security protocol is implemented in the backend. All REST methods are secured under Basic Authentication, and 2 users are predefined:
+
+- `user:pass`
+- `admin:admin`
+
+Any authenticated user can perform uploads. For downloads, user `admin` has the highest level of granted permissions, and therefore has access to all video recordings. User `user` has access to their own recorded videos only.
