@@ -10,7 +10,7 @@ Provided as a [Docker](https://store.docker.com/search?type=edition&offering=com
 docker run -p 5443:5443 openvidu/openvidu-recording-server-endpoint
 ```
 
-<p align="center"><img src=src="https://github.com/OpenVidu/openvidu-recording-server-endpoint/blob/master/readme-images/demo.gif?raw=true"/></p>
+<p align="center"><img src="https://github.com/OpenVidu/openvidu-recording-server-endpoint/blob/master/readme-images/demo.gif?raw=true"/></p>
 
 ## Docs
 
