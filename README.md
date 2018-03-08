@@ -4,7 +4,7 @@ This is a Spring Boot application aimed to offer an HTTP endpoint for uploading/
 
 ## Demo
 
-Provided as a [Docker](https://store.docker.com/search?type=edition&offering=community) images
+Provided as a [Docker](https://store.docker.com/search?type=edition&offering=community) image:
 
 ```
 docker run -p 5443:5443 openvidu/openvidu-recording-server-endpoint
