@@ -1,5 +1,8 @@
 # openvidu-recording-server-endpoint
 
+> [!WARNING]
+> **This repository is no longer maintained.**
+
 This is a Spring Boot application aimed to offer an HTTP endpoint for uploading/dowloading video recordings from browsers. It is meant to be used alongside [openvidu-browser](https://www.npmjs.com/package/openvidu-browser) library and its **LocalRecorder** API.
 
 ## Demo
